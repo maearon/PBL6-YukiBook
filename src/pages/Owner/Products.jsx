@@ -78,11 +78,13 @@ export default function Products() {
                     <img
                       src={
                         product.thumbnail ||
+                        product.file_url ||
                         "https://via.placeholder.com/300x200?text=No+Image"
                       }
                       alt={product.name}
                       className="h-40 w-full object-cover rounded-md mb-3"
                     />
+
                     <h3 className="text-md font-semibold text-gray-800">
                       {product.name}
                     </h3>
