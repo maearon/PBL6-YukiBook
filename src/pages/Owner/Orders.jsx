@@ -7,7 +7,7 @@ const fakeShopOrders = [
     id: "SO123456",
     date: "2025-04-20",
     customer: "Nguyễn Văn A",
-    status: "Đang vận chuyển",
+    status: "Đã giao",
     total: 150000,
     items: 1,
   },

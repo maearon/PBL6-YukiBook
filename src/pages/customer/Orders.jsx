@@ -13,7 +13,7 @@ const fakeOrders = [
   {
     id: "OD123457",
     date: "2025-04-18",
-    status: "Đang xử lý",
+    status: "Đã giao",
     total: 45000,
     items: 1,
   },

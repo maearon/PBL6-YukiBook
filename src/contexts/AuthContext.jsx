@@ -28,7 +28,6 @@ export const AuthProvider = ({ children }) => {
         token,
         role_id: role,
         user_id,
-        phone_number,
       };
 
       localStorage.setItem("bookstore-user", JSON.stringify(userData));

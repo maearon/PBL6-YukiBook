@@ -10,7 +10,8 @@ import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import Unauthorized from "./pages/Public/Unauthorized";
 import NotFound from "./pages/Public/NotFound";
-
+import ShopDetail from "./pages/Public/ShopDetail";
+import Profile from "./pages/Public/Profile";
 // Admin Pages
 import AdminDashboard from "./pages/Admin/Dashboard";
 import AdminUsers from "./pages/Admin/Users";
@@ -61,10 +62,12 @@ export default function App() {
           <Route path="/mock-chat" element={<ChatLayout />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/checkout/success" element={<CheckoutSuccess />} />
+          <Route path="/shops/:id" element={<ShopDetail />} />
+          <Route path="/account/profile" element={<CustomerDashboard />} />
+          <Route path="/account/orders" element={<Orders />} />
+
 
           <Route element={<RequireAuth allowedRoles={[3]} />}>
-            <Route path="/account/profile" element={<CustomerDashboard />} />
-            <Route path="/account/orders" element={<Orders />} />
           </Route>
 
           <Route element={<RequireAuth allowedRoles={[2]} />}>
