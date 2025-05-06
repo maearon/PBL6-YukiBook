@@ -6,8 +6,8 @@ import { useAuth } from "../contexts/AuthContext";
 export default function useProducts() {
   const { user, isAuthLoading } = useAuth();
   const [products, setProducts] = useState([]);
-  const [loading, setLoading]     = useState(true);
-  const [error, setError]         = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   // fetch danh sách
   const fetchProducts = useCallback(async () => {
@@ -35,10 +35,12 @@ export default function useProducts() {
   const deleteProduct = useCallback(
     async (id) => {
       try {
-        await axios.delete(
-          `http://localhost:8081/api/v1/products/${id}`,
-          { headers: { Authorization: `Bearer ${user.token}` } }
-        );
+        console.log("🧾 Deleting product id:", id);
+        console.log("🔑 Token:", user?.token);
+
+        await axios.delete(`http://localhost:8081/api/v1/products/${id}`, {
+          headers: { Authorization: `Bearer ${user.token}` },
+        });
         // chỉ update state, không reload
         setProducts((prev) => prev.filter((p) => p.id !== id));
       } catch (err) {

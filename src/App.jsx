@@ -12,13 +12,14 @@ import Unauthorized from "./pages/Public/Unauthorized";
 import NotFound from "./pages/Public/NotFound";
 import ShopDetail from "./pages/Public/ShopDetail";
 import Profile from "./pages/Public/Profile";
+import ShopList from "./pages/Public/shoplist";
 // Admin Pages
 import AdminDashboard from "./pages/Admin/Dashboard";
 import AdminUsers from "./pages/Admin/Users";
 import AdminShops from "./pages/Admin/Shops";
 import AdminProducts from "./pages/Admin/Products";
 import AdminOrders from "./pages/Admin/Orders";
-
+import AdminCate from "./pages/Admin/Categories"
 // Owner Pages
 import OwnerDashboard from "./pages/Owner/Dashboard";
 import OwnerProducts from "./pages/Owner/Products";
@@ -65,6 +66,7 @@ export default function App() {
           <Route path="/shops/:id" element={<ShopDetail />} />
           <Route path="/account/profile" element={<CustomerDashboard />} />
           <Route path="/account/orders" element={<Orders />} />
+          <Route path="/shop" element={<ShopList />} />
 
 
           <Route element={<RequireAuth allowedRoles={[3]} />}>
@@ -83,6 +85,8 @@ export default function App() {
             <Route path="/admin/shops" element={<AdminShops />} />
             <Route path="/admin/products" element={<AdminProducts />} />
             <Route path="/admin/orders" element={<AdminOrders />} />
+            <Route path="/admin/categories" element={<AdminCate />} />
+
           </Route>
 
           {/* 404 Not Found */}

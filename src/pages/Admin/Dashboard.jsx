@@ -1,7 +1,6 @@
 import React from "react";
 import AdminSidebar from "../../components/AdminSidebar";
 
-// ⚡ Fake dữ liệu thống kê hệ thống
 const stats = [
   { label: "Tổng số người dùng", value: 3210, icon: "👤" },
   { label: "Tổng số cửa hàng", value: 120, icon: "🏬" },

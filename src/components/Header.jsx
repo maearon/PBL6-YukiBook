@@ -61,7 +61,7 @@ export default function Header({ toggleSidebar }) {
           {user ? (
             <>
               {user.role_id === 1 && (
-                <Link to="/admin" className="text-sm text-blue-600 hover:underline font-medium">
+                <Link to="/admin/dashboard" className="text-sm text-blue-600 hover:underline font-medium">
                   Admin
                 </Link>
               )}

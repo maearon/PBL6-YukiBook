@@ -35,10 +35,12 @@ export default function Products() {
     if (!window.confirm("Bạn có chắc chắn muốn xóa sản phẩm này?")) return;
     try {
       await deleteProduct(id);
+      alert("✅ Đã xóa sản phẩm thành công!");
     } catch (err) {
       alert("🔥 Xóa sản phẩm thất bại. Vui lòng thử lại.");
     }
   };
+  
 
   if (loading || isAuthLoading)
     return <div className="p-8 text-gray-500">Đang tải dữ liệu...</div>;
