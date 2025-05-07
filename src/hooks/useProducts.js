@@ -1,4 +1,3 @@
-// src/hooks/useProducts.js
 import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { useAuth } from "../contexts/AuthContext";
@@ -6,15 +5,14 @@ import { useAuth } from "../contexts/AuthContext";
 export default function useProducts() {
   const { user, isAuthLoading } = useAuth();
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [loading, setLoading]   = useState(true);
+  const [error, setError]       = useState(null);
 
-  // fetch danh sách
+  // Fetch all products for this shop
   const fetchProducts = useCallback(async () => {
     if (!user?.token || isAuthLoading) return;
     setLoading(true);
     try {
-      // giả sử backend: /shops/:userId → lấy shopId; rồi /products/shop/:shopId
       const shopRes = await axios.get(
         `http://localhost:8081/api/v1/shops/${user.user_id}`,
         { headers: { Authorization: `Bearer ${user.token}` } }
@@ -31,31 +29,57 @@ export default function useProducts() {
     }
   }, [user, isAuthLoading]);
 
-  // xóa sản phẩm
+  // Delete a product
   const deleteProduct = useCallback(
     async (id) => {
-      try {
-        console.log("🧾 Deleting product id:", id);
-        console.log("🔑 Token:", user?.token);
-
-        await axios.delete(`http://localhost:8081/api/v1/products/${id}`, {
-          headers: { Authorization: `Bearer ${user.token}` },
-        });
-        // chỉ update state, không reload
-        setProducts((prev) => prev.filter((p) => p.id !== id));
-      } catch (err) {
-        throw err;
-      }
+      await axios.delete(`http://localhost:8081/api/v1/products/${id}`, {
+        headers: { Authorization: `Bearer ${user.token}` },
+      });
+      setProducts((prev) => prev.filter((p) => p.id !== id));
     },
     [user]
   );
 
-  // TODO: bạn có thể thêm updateProduct / createProduct tương tự
+  // Update a product in-place
+  const updateProduct = useCallback(
+    async (id, updates) => {
+      await axios.put(
+        `http://localhost:8081/api/v1/products/${id}`,
+        updates,
+        { headers: { Authorization: `Bearer ${user.token}` } }
+      );
+      setProducts((prev) =>
+        prev.map((p) => (p.id === id ? { ...p, ...updates } : p))
+      );
+    },
+    [user]
+  );
 
-  // gọi fetch khi user/token sẵn sàng
+  // Create a new product
+  const createProduct = useCallback(
+    async (newProd) => {
+      const { data } = await axios.post(
+        `http://localhost:8081/api/v1/products`,
+        newProd,
+        { headers: { Authorization: `Bearer ${user.token}` } }
+      );
+      setProducts((prev) => [...prev, data]);
+      return data;
+    },
+    [user]
+  );
+
   useEffect(() => {
     fetchProducts();
   }, [fetchProducts]);
 
-  return { products, loading, error, fetchProducts, deleteProduct };
+  return {
+    products,
+    loading,
+    error,
+    fetchProducts,
+    deleteProduct,
+    updateProduct,
+    createProduct,
+  };
 }
