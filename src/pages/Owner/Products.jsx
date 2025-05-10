@@ -3,7 +3,7 @@ import axios from "axios";
 import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import OwnerSidebar from "../../components/OwnerSidebar";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "../../hooks/useAuth";
 import useProducts from "../../hooks/useProducts";
 import ProductSection from "../../components/owner/ProductSection";
 import EditProductModal from "../../components/owner/EditProductModal";

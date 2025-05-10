@@ -1,6 +1,6 @@
 import React from "react";
 import CustomerSidebar from "../../components/CustomerSidebar";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "../../hooks/useAuth";
 
 export default function CustomerDashboard() {
   const { user } = useAuth();
