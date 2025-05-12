@@ -1,3 +1,5 @@
+// Cart.jsx
+
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../../hooks/useAuth.js";
@@ -10,7 +12,6 @@ export default function Cart() {
   const [selectedItems, setSelectedItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch detailed cart items from API
   useEffect(() => {
     const fetchCartItems = async () => {
       const rawCart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -43,60 +44,28 @@ export default function Cart() {
     if (!isAuthLoading) fetchCartItems();
   }, [isAuthLoading, user]);
 
-  const updateCart = (updatedItems) => {
-    setCartItems(updatedItems);
-    const saveCart = updatedItems.map(({ bookId, quantity }) => ({ bookId, quantity }));
-    localStorage.setItem("cart", JSON.stringify(saveCart));
-  };
-
-  const toggleSelect = (bookId) => {
-    setSelectedItems((prev) =>
-      prev.includes(bookId) ? prev.filter((id) => id !== bookId) : [...prev, bookId]
-    );
-  };
-
-  const deleteSelected = () => {
-    const updated = cartItems.filter((item) => !selectedItems.includes(item.bookId));
-    updateCart(updated);
-    setSelectedItems([]);
-  };
-
   const getTotal = () =>
     cartItems.reduce((sum, item) => sum + (item.book.price || 0) * item.quantity, 0);
 
-  const handleCheckout = () => navigate("/checkout");
+  const handleCheckout = () => {
+    if (cartItems.length === 0) {
+      alert("Giỏ hàng trống, vui lòng thêm sản phẩm.");
+      return;
+    }
 
-  if (loading || isAuthLoading) {
-    return <div className="p-8 text-gray-500">Đang tải giỏ hàng…</div>;
-  }
-
-  if (!cartItems.length) {
-    return (
-      <div className="p-10 text-center text-gray-500">Giỏ hàng của bạn đang trống!</div>
-    );
-  }
+    const totalAmount = getTotal();
+    navigate("/checkout", { state: { totalAmount } });
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-10 pt-20">
       <h2 className="text-2xl font-bold mb-6">🛒 Giỏ hàng của bạn</h2>
-
+      {/* Hiển thị các sản phẩm */}
       <div className="flex flex-col gap-6">
         {cartItems.map((item) => (
-          <div
-            key={item.bookId}
-            className="flex gap-4 bg-white p-4 rounded-lg shadow items-center"
-          >
-            <input
-              type="checkbox"
-              checked={selectedItems.includes(item.bookId)}
-              onChange={() => toggleSelect(item.bookId)}
-              className="w-5 h-5"
-            />
+          <div key={item.bookId} className="flex gap-4 bg-white p-4 rounded-lg shadow items-center">
             <img
-              src={
-                item.book.thumbnail ||
-                "https://via.placeholder.com/80x112?text=No+Image"
-              }
+              src={item.book.thumbnail || "https://via.placeholder.com/80x112?text=No+Image"}
               alt={item.book.name}
               className="w-20 h-28 rounded-md object-cover"
             />
@@ -112,26 +81,17 @@ export default function Cart() {
         ))}
       </div>
 
-      <div className="flex justify-between items-center mt-10 flex-wrap gap-4">
-        <div className="flex gap-4">
-          <button
-            onClick={deleteSelected}
-            className="btn-primary px-6 py-2 rounded-full"
-            disabled={selectedItems.length === 0}
-          >
-            Xóa sản phẩm đã chọn
-          </button>
-          <button
-            onClick={handleCheckout}
-            className="btn-primary px-6 py-2 rounded-full bg-green-500 hover:bg-green-600"
-          >
-            Thanh toán
-          </button>
-        </div>
-
+      {/* Tổng tiền và nút thanh toán */}
+      <div className="flex justify-between items-center mt-10">
         <div className="text-xl font-bold">
           Tổng cộng: <span className="text-primary">{getTotal().toLocaleString()}₫</span>
         </div>
+        <button
+          onClick={handleCheckout}
+          className="btn-primary px-6 py-2 rounded-full bg-green-500 hover:bg-green-600"
+        >
+          Thanh toán
+        </button>
       </div>
     </div>
   );

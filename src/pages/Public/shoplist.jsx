@@ -74,7 +74,7 @@ export default function ShopList() {
                 <h2 className="text-xl font-semibold text-gray-800">{shop.name}</h2>
                 <p className="text-gray-600 mt-2">{shop.description}</p>
                 <Link
-                  to={`/shop/${shop.id}`}
+                  to={`/shops/${shop.id}`}
                   className="mt-4 inline-block text-primary hover:underline font-medium"
                 >
                   View Details

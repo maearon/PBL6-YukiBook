@@ -13,6 +13,7 @@ import NotFound from "./pages/Public/NotFound";
 import ShopDetail from "./pages/Public/ShopDetail";
 import Profile from "./pages/Public/Profile";
 import ShopList from "./pages/Public/shoplist";
+import ViewCate from "./pages/Public/ViewCate";
 // Admin Pages
 import AdminDashboard from "./pages/Admin/Dashboard";
 import AdminUsers from "./pages/Admin/Users";
@@ -67,6 +68,7 @@ export default function App() {
           <Route path="/account/profile" element={<CustomerDashboard />} />
           <Route path="/account/orders" element={<Orders />} />
           <Route path="/shop" element={<ShopList />} />
+          <Route path="/viewcate" element={<ViewCate />} />
 
 
           <Route element={<RequireAuth allowedRoles={[3]} />}>

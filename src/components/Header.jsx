@@ -33,7 +33,7 @@ export default function Header({ toggleSidebar }) {
         <nav className="hidden md:flex flex-1 justify-center gap-8 text-sm items-center">
           <Link to="/" className="hover:text-primary font-medium">Home</Link>
           <Link to="/shop" className="hover:text-primary font-medium">Shop</Link>
-          <Link to="/blog" className="hover:text-primary font-medium">Blog</Link>
+          <Link to="/Viewcate" className="hover:text-primary font-medium">Categories</Link>
         </nav>
 
         <form
