@@ -21,7 +21,7 @@ export default function EnhancedChatLayout() {
     { 
       id: 1, 
       shopName: "Shop Minh Châu", 
-      avatar: "/api/placeholder/40/40", 
+      avatar: "https://i.pravatar.cc/100?img=5", 
       lastMessage: "Cảm ơn bạn đã đặt hàng!", 
       time: "10:40",
       unread: 0,
@@ -30,7 +30,7 @@ export default function EnhancedChatLayout() {
     { 
       id: 2, 
       shopName: "Hiệu sách Sáng Tạo", 
-      avatar: "/api/placeholder/40/40", 
+      avatar: "https://i.pravatar.cc/100?img=5", 
       lastMessage: "Đơn hàng của bạn đã gửi đi!", 
       time: "Hôm qua",
       unread: 2,
@@ -39,7 +39,7 @@ export default function EnhancedChatLayout() {
     { 
       id: 3, 
       shopName: "Thời trang Phương Anh", 
-      avatar: "/api/placeholder/40/40", 
+      avatar: "https://i.pravatar.cc/100?img=5", 
       lastMessage: "Bạn có thể ghé showroom của chúng tôi", 
       time: "Thứ 2",
       unread: 0,
@@ -48,7 +48,7 @@ export default function EnhancedChatLayout() {
     { 
       id: 4, 
       shopName: "Nhà thuốc An Khang", 
-      avatar: "/api/placeholder/40/40", 
+      avatar: "https://i.pravatar.cc/100?img=5", 
       lastMessage: "Chúng tôi đã nhận được yêu cầu", 
       time: "15/04",
       unread: 1,
@@ -122,7 +122,7 @@ export default function EnhancedChatLayout() {
       
       <div className="relative mr-3">
         <img 
-          src="/api/placeholder/40/40" 
+          src="https://i.pravatar.cc/100?img=5" 
           alt="Shop avatar" 
           className="w-10 h-10 rounded-full object-cover" 
         />
@@ -234,7 +234,7 @@ export default function EnhancedChatLayout() {
                 {msg.sender === "shop" && (
                   <div className="mr-2 flex-shrink-0">
                     <img 
-                      src="/api/placeholder/32/32" 
+                      src="https://i.pravatar.cc/100?img=5" 
                       alt="Shop avatar" 
                       className="w-8 h-8 rounded-full" 
                     />

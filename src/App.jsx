@@ -65,7 +65,7 @@ export default function App() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/checkout/success" element={<CheckoutSuccess />} />
           <Route path="/shops/:id" element={<ShopDetail />} />
-          <Route path="/account/profile" element={<CustomerDashboard />} />
+          <Route path="/account/profile" element={<Profile />} />
           <Route path="/account/orders" element={<Orders />} />
           <Route path="/shop" element={<ShopList />} />
           <Route path="/viewcate" element={<ViewCate />} />
