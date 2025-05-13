@@ -1,6 +1,17 @@
-import { Search, BookOpen, Download, BookCheck } from "lucide-react"
+import { Search, BookOpen, Download, BookCheck } from "lucide-react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Section1() {
+  const [keyword, setKeyword] = useState("");
+  const navigate = useNavigate();
+
+  const onSearch = () => {
+    const kw = keyword.trim();
+    if (!kw) return;
+    navigate(`/viewcate?keyword=${encodeURIComponent(kw)}`);
+  };
+
   return (
     <div className="relative">
       <section className="relative bg-gradient-to-r from-indigo-600 to-purple-600 text-white pt-24 pb-32 overflow-visible">
@@ -25,28 +36,34 @@ export default function Section1() {
             <div className="relative max-w-xl mx-auto mb-10">
               <input
                 type="text"
+                value={keyword}
+                onChange={e => setKeyword(e.target.value)}
+                onKeyDown={e => e.key === 'Enter' && onSearch()}
                 placeholder="Tìm kiếm sách, tác giả..."
                 className="w-full py-4 px-6 pr-12 rounded-full text-gray-800 shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
               />
-              <button className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-indigo-600 text-white p-2 rounded-full hover:bg-indigo-700 transition">
+              <button
+                onClick={onSearch}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-indigo-600 text-white p-2 rounded-full hover:bg-indigo-700 transition"
+              >
                 <Search size={20} />
               </button>
             </div>
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href="#products"
+              <button
+                onClick={onSearch}
                 className="inline-block rounded-full bg-white text-indigo-600 font-semibold px-8 py-3 hover:bg-gray-100 transition-colors shadow-md"
               >
                 Khám phá ngay
-              </a>
-              <a
-                href="#categories"
+              </button>
+              <button
+                onClick={() => navigate('/viewcate')}
                 className="inline-block rounded-full bg-indigo-700 text-white font-semibold px-8 py-3 hover:bg-indigo-800 transition-colors border border-indigo-500"
               >
                 Xem danh mục
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -90,5 +107,5 @@ export default function Section1() {
         </div>
       </div>
     </div>
-  )
+  );
 }

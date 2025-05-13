@@ -43,7 +43,7 @@ export default function Section2() {
             <Flame className="text-orange-500" size={24} />
           </div>
           <a 
-            href="#products" 
+            href="/Viewcate" 
             className="text-indigo-600 hover:text-indigo-800 font-medium transition-colors flex items-center gap-1"
           >
             Xem tất cả

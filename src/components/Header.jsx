@@ -11,8 +11,10 @@ export default function Header({ toggleSidebar }) {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    if (keyword.trim()) {
-      console.log("Searching for:", keyword);
+    const kw = keyword.trim();
+    if (kw) {
+      navigate(`/viewcate?keyword=${encodeURIComponent(kw)}`);
+      setKeyword("");
     }
   };
 
@@ -33,7 +35,7 @@ export default function Header({ toggleSidebar }) {
         <nav className="hidden md:flex flex-1 justify-center gap-8 text-sm items-center">
           <Link to="/" className="hover:text-primary font-medium">Home</Link>
           <Link to="/shop" className="hover:text-primary font-medium">Shop</Link>
-          <Link to="/Viewcate" className="hover:text-primary font-medium">Categories</Link>
+          <Link to="/viewcate" className="hover:text-primary font-medium">Categories</Link>
         </nav>
 
         <form
@@ -47,7 +49,12 @@ export default function Header({ toggleSidebar }) {
             onChange={(e) => setKeyword(e.target.value)}
             className="w-full rounded-full border px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
           />
-          <button type="submit" className="btn-primary py-2 px-4 rounded-full">Search</button>
+          <button
+            type="submit"
+            className="btn-primary py-2 px-4 rounded-full"
+          >
+            Search
+          </button>
         </form>
 
         <div className="flex items-center gap-4">
@@ -65,9 +72,9 @@ export default function Header({ toggleSidebar }) {
                   Admin
                 </Link>
               )}
-              {user.role_id === 3 && (
-                <Link to="/dashboard" className="text-sm text-green-600 hover:underline font-medium">
-                  Dashboard
+              {user.role_id === 2 && (
+                <Link to="/owner/dashboard" className="text-sm text-green-600 hover:underline font-medium">
+                  Owner Dashboard
                 </Link>
               )}
               <Link to="/account/profile" className="text-sm hover:text-primary font-medium">

@@ -66,7 +66,7 @@ export default function BookDetail() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 animate-fadeIn">
       {/* Breadcrumb navigation */}
       <nav className="flex items-center text-sm text-gray-500 mb-8">
-        <a href="#" className="hover:text-gray-800 transition-colors flex items-center">
+        <a href="/" className="hover:text-gray-800 transition-colors flex items-center">
           <ChevronLeft size={16} className="mr-1" />
           Back to Books
         </a>

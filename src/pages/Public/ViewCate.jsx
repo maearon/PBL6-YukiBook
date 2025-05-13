@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../../hooks/useAuth.js";
+import { useLocation } from "react-router-dom";
 
 import Banner from "../../components/viewcate/Banner";
 import Loader from "../../components/viewcate/Loader";
@@ -11,6 +12,10 @@ import Pagination from "../../components/viewcate/Pagination";
 
 export default function BooksByCategory() {
   const { user, isAuthLoading } = useAuth();
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const keywordParam = params.get("keyword");
+
   const [categoryId, setCategoryId] = useState(null);
   const [categories, setCategories] = useState([]);
   const [books, setBooks] = useState([]);
@@ -29,68 +34,83 @@ export default function BooksByCategory() {
   // Fetch categories
   useEffect(() => {
     if (isAuthLoading || !user?.token) return;
-    const fetchCategories = async () => {
-      try {
-        const res = await axios.get(
-          "http://localhost:8081/api/v1/categories?page=1&limit=30",
-          { headers: { Authorization: `Bearer ${user.token}` } }
-        );
+    axios
+      .get(
+        "http://localhost:8081/api/v1/categories?page=1&limit=30",
+        { headers: { Authorization: `Bearer ${user.token}` } }
+      )
+      .then(res => {
         const list = res.data.data ?? res.data;
         setCategories(list);
-      } catch (err) {
-        console.error("Error fetching categories:", err);
-      }
-    };
-    fetchCategories();
+      })
+      .catch(err => console.error("Error fetching categories:", err));
   }, [user, isAuthLoading]);
 
-  // Fetch products & filter by category
+  // Search if keywordParam exists
   useEffect(() => {
     if (isAuthLoading || !user?.token) return;
-
-    const fetchProducts = async () => {
+    if (keywordParam) {
       setLoading(true);
-      try {
-        const res = await axios.get(
-          `http://localhost:8081/api/v1/products?page=${currentPage}&limit=30`,
+      axios
+        .get(
+          `http://localhost:8081/api/v1/products/search?keyword=${encodeURIComponent(keywordParam)}`,
           { headers: { Authorization: `Bearer ${user.token}` } }
-        );
+        )
+        .then(res => {
+          const payload = res.data.data ?? res.data;
+          const prods = Array.isArray(payload) ? payload : [];
+          setBooks(prods);
+          setTotalPages(1);
+          setCurrentPage(0);
+          setSelectedCategory(null);
+          setCategoryId(null);
+        })
+        .catch(err => console.error("Error searching products:", err))
+        .finally(() => setLoading(false));
+    }
+  }, [keywordParam, user, isAuthLoading]);
+
+  // Fetch products & filter by category when no keywordParam
+  useEffect(() => {
+    if (isAuthLoading || !user?.token) return;
+    if (keywordParam) return;
+
+    setLoading(true);
+    axios
+      .get(
+        `http://localhost:8081/api/v1/products?page=${currentPage}&limit=30`,
+        { headers: { Authorization: `Bearer ${user.token}` } }
+      )
+      .then(res => {
         const payload = res.data.data ?? res.data;
         let prods = Array.isArray(payload.product)
           ? payload.product
           : payload;
 
-        console.log("🚀 Fetched products:", prods);
-        console.log("Filtering by categoryId:", categoryId);
-
         if (categoryId !== null) {
           const catIdNum = Number(categoryId);
           prods = prods.filter(p => {
-            // gom tất cả ID category mà product có, bao gồm category_id từ API
             const idsRaw = [
               p.category_id,
               p.categoryId,
               p.category?.id,
-              ...(Array.isArray(p.categories) ? p.categories.map(c => c.id) : [])
+              ...(Array.isArray(p.categories)
+                ? p.categories.map(c => c.id)
+                : [])
             ];
             const ids = idsRaw
               .filter(v => v != null)
               .map(v => Number(v));
-            console.log(`Product ${p.id} categories:`, ids);
             return ids.includes(catIdNum);
           });
         }
 
         setBooks(prods);
         setTotalPages(payload.totalPage ?? 1);
-      } catch (err) {
-        console.error("Error fetching products:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchProducts();
-  }, [user, isAuthLoading, categoryId, currentPage]);
+      })
+      .catch(err => console.error("Error fetching products:", err))
+      .finally(() => setLoading(false));
+  }, [user, isAuthLoading, categoryId, currentPage, keywordParam]);
 
   // Apply price + sort
   useEffect(() => {
@@ -106,9 +126,8 @@ export default function BooksByCategory() {
 
   // Handlers
   const handleCategoryChange = (cat) => {
-    const idNum = cat?.id != null ? Number(cat.id) : null;
     setSelectedCategory(cat);
-    setCategoryId(idNum);
+    setCategoryId(cat?.id != null ? Number(cat.id) : null);
     setCurrentPage(0);
   };
   const handleSortChange  = opt => setSortOption(opt);
@@ -133,7 +152,11 @@ export default function BooksByCategory() {
   return (
     <div className="bg-gray-50 min-h-screen">
       <Banner
-        title={selectedCategory?.name || "Tất cả sách"}
+        title={
+          keywordParam
+            ? `Kết quả tìm kiếm: "${keywordParam}"`
+            : selectedCategory?.name || "Tất cả sách"
+        }
         count={filteredBooks.length}
       />
 
