@@ -53,7 +53,7 @@ export default function Section1() {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
-                onClick={onSearch}
+                onClick={() => navigate('/viewcate')}
                 className="inline-block rounded-full bg-white text-indigo-600 font-semibold px-8 py-3 hover:bg-gray-100 transition-colors shadow-md"
               >
                 Khám phá ngay

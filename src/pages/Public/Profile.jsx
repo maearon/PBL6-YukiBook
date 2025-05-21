@@ -1,4 +1,3 @@
-// Profile.jsx
 "use client"
 
 import React, { useEffect, useState } from "react"
@@ -10,6 +9,11 @@ export default function Profile() {
   const { user, isAuthLoading } = useAuth()
   const [profile, setProfile] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [purchasedBooks, setPurchasedBooks] = useState([
+    { id: 1, name: "Ebook Lập Trình Python", fileUrl: "https://example.com/ebook1.pdf" },
+    { id: 2, name: "Ebook React.js Nâng Cao", fileUrl: "https://example.com/ebook2.pdf" },
+    { id: 3, name: "Ebook JavaScript Cơ Bản", fileUrl: "https://example.com/ebook3.pdf" }
+  ]);
 
   useEffect(() => {
     if (isAuthLoading || !user?.user_id) return
@@ -48,9 +52,7 @@ export default function Profile() {
         <div className="rounded-lg bg-white p-6 shadow space-y-6">
           <div>
             <label className="block text-sm font-medium text-gray-600">Họ và tên</label>
-            <p className="mt-1 text-gray-800">
-              {profile.fullname || "Chưa cập nhật"}
-            </p>
+            <p className="mt-1 text-gray-800">{profile.fullname || "Chưa cập nhật"}</p>
           </div>
 
           <div>
@@ -60,17 +62,30 @@ export default function Profile() {
 
           <div>
             <label className="block text-sm font-medium text-gray-600">Số điện thoại</label>
-            <p className="mt-1 text-gray-800">
-              {profile.phoneNumber || "Chưa cập nhật"}
-            </p>
+            <p className="mt-1 text-gray-800">{profile.phoneNumber || "Chưa cập nhật"}</p>
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-600">Địa chỉ</label>
-            <p className="mt-1 text-gray-800">
-              {profile.address || "Chưa cập nhật"}
-            </p>
+            <p className="mt-1 text-gray-800">{profile.address || "Chưa cập nhật"}</p>
           </div>
+        </div>
+
+        {/* Purchased Books Section */}
+        <div className="mt-8 rounded-lg bg-white p-6 shadow space-y-6">
+          <h2 className="text-lg font-semibold text-gray-800">Sách đã mua</h2>
+          {purchasedBooks.map((book) => (
+            <div key={book.id} className="flex justify-between items-center">
+              <p className="text-gray-800">{book.name}</p>
+              <a
+                href={book.fileUrl}
+                download
+                className="text-blue-600 hover:underline"
+              >
+                Tải về
+              </a>
+            </div>
+          ))}
         </div>
       </main>
     </div>

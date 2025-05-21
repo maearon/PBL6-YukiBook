@@ -8,6 +8,29 @@
   </head>
   <body>
     <div id="root"></div>
+
+    <!-- Đoạn mã Coze Web SDK -->
+    <script src="https://sf-cdn.coze.com/obj/unpkg-va/flow-platform/chat-app-sdk/1.2.0-beta.6/libs/oversea/index.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        new CozeWebSDK.WebChatClient({
+          config: {
+            bot_id: '7505753234527961095',
+          },
+          componentProps: {
+            title: 'Coze',
+          },
+          auth: {
+            type: 'token',
+            token: 'pat_Do9xjKJjy1KBcHKeFa6PlDGOkqxsMYRmAsPrvonrN0nDm3yX00qwA9U86nhz1sg9',
+            onRefreshToken: function () {
+              return 'pat_Do9xjKJjy1KBcHKeFa6PlDGOkqxsMYRmAsPrvonrN0nDm3yX00qwA9U86nhz1sg9';
+            }
+          }
+        });
+      });
+    </script>
+
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

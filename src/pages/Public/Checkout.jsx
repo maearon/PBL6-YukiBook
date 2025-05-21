@@ -18,14 +18,12 @@ export default function Checkout() {
 
   // Lấy thông tin user trước khi tạo order
   useEffect(() => {
-    // Đợi auth load xong và có userId
     if (isAuthLoading) return;
     if (!user?.user_id) {
       navigate("/login");
       return;
     }
 
-    // Fetch thông tin user
     axios
       .get(`http://localhost:8081/api/v1/users/${user.user_id}`, {
         headers: { Authorization: `Bearer ${user.token}` },
@@ -33,7 +31,6 @@ export default function Checkout() {
       .then((res) => setUserInfo(res.data))
       .catch((err) => console.error("🔥 Lỗi khi fetch thông tin user:", err));
 
-    // Lấy tổng tiền từ state truyền vào
     const amount = location.state?.totalAmount || 0;
     if (amount > 0) {
       setTotalAmount(amount);
@@ -42,6 +39,8 @@ export default function Checkout() {
       navigate("/cart");
     }
   }, [isAuthLoading, user, location, navigate]);
+
+  const getAuthHeader = () => ({ headers: { Authorization: `Bearer ${user.token}` } });
 
   const handleConfirm = async () => {
     if (!paymentMethod) {
@@ -57,6 +56,7 @@ export default function Checkout() {
     setIsProcessing(true);
 
     try {
+      // Tạo order chính
       const orderData = {
         user_id: user.user_id,
         fullname: userInfo.fullname,
@@ -70,20 +70,53 @@ export default function Checkout() {
         active: true,
       };
 
-      await axios.post("http://localhost:8081/api/v1/orders", orderData, {
-        headers: { Authorization: `Bearer ${user.token}` },
-      });
+      const orderRes = await axios.post(
+        "http://localhost:8081/api/v1/orders",
+        orderData,
+        getAuthHeader()
+      );
 
+      const newOrderId = orderRes.data.id;
+
+      // Lấy giỏ hàng từ localStorage để push chi tiết
+      const rawCart = JSON.parse(localStorage.getItem("cart")) || [];
+      for (const { bookId, quantity } of rawCart) {
+        // Lấy giá sách để tính chi tiết
+        const bookRes = await axios.get(
+          `http://localhost:8081/api/v1/products/${bookId}`,
+          getAuthHeader()
+        );
+        const price = bookRes.data.price;
+
+        const detailData = {
+          order_id: newOrderId,
+          product_id: bookId,
+          price,
+          number_of_products: quantity,
+          total_money: price * quantity,
+        };
+
+        await axios.post(
+          "http://localhost:8081/api/v1/order_details",
+          detailData,
+          getAuthHeader()
+        );
+      }
+
+      // Xóa giỏ hàng sau khi tạo xong
+      localStorage.removeItem("cart");
+
+      // Điều hướng tiếp theo tùy phương thức thanh toán
       if (paymentMethod === "vnpay") {
         const response = await axios.get(
           `http://localhost:8081/api/v1/payments/create-payment?amount=${totalAmount}`,
-          { headers: { Authorization: `Bearer ${user.token}` } }
+          getAuthHeader()
         );
 
         if (response.data && response.data.includes("http")) {
           window.location.href = response.data;
         } else {
-          alert("Đã xảy ra lỗi khi tạo thanh toán MoMo!");
+          alert("Đã xảy ra lỗi khi tạo thanh toán VNPAY!");
         }
       } else {
         navigate("/checkout/success");
@@ -96,7 +129,8 @@ export default function Checkout() {
     }
   };
 
-  if (isAuthLoading) return <div>Đang kiểm tra đăng nhập...</div>;
+  if (isAuthLoading)
+    return <div>Đang kiểm tra đăng nhập...</div>;
 
   const methods = [
     {
