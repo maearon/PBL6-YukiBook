@@ -17,13 +17,14 @@ The **YukiBook Bookstore System** is a web-based platform built using **Java Ser
 ## 🏗️ Technologies Used
 
 ### **BackEnd:**
+- Java
 - Springboot
 - MySQL 
 - JDBC 
 - WebSocket 
 
 ### **FrontEnd:**
-- HTML, CSS, JavaScript, React, Tailwind css
+- HTML, CSS, JavaScript, React, Tailwind css, Type script
 
 ## 🔑 Test Accounts
 
