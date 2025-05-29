@@ -17,14 +17,13 @@ The **YukiBook Bookstore System** is a web-based platform built using **Java Ser
 ## 🏗️ Technologies Used
 
 ### **BackEnd:**
-- Java Servlet & JSP
-- MySQL (Database/Cơ sở dữ liệu)
-- JDBC (Database Connection/Kết nối cơ sở dữ liệu)
-- WebSocket (Real-time Communication/Giao tiếp thời gian thực)
+- Springboot
+- MySQL 
+- JDBC 
+- WebSocket 
 
 ### **FrontEnd:**
-- HTML, CSS, JavaScript
-- jQuery & AJAX (Dynamic UI Updates/Cập nhật giao diện động)
+- HTML, CSS, JavaScript, React, Tailwind css
 
 ## 🔑 Test Accounts
 
