@@ -28,8 +28,8 @@ import OwnerOrders from "./pages/Owner/Orders";
 import ShopInfo from "./pages/Owner/ShopInfo";
 
 // Customer Pages
-import CustomerDashboard from "./pages/Customer/Dashboard";
-import Orders from "./pages/Customer/Orders";
+import CustomerDashboard from "./pages/customer/Dashboard";
+import Orders from "./pages/customer/Orders";
 
 // Components
 import Header from "./components/Header";
