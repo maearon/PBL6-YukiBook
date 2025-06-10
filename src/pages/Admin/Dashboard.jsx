@@ -2,11 +2,11 @@ import React from "react";
 import AdminSidebar from "../../components/AdminSidebar";
 
 const stats = [
-  { label: "Tổng số người dùng", value: 3210, icon: "👤" },
-  { label: "Tổng số cửa hàng", value: 120, icon: "🏬" },
-  { label: "Tổng số sản phẩm", value: 5840, icon: "📚" },
-  { label: "Tổng số đơn hàng", value: 10245, icon: "🛒" },
-  { label: "Doanh thu toàn hệ thống", value: 780000000, icon: "💰" },
+  { label: "Tổng số người dùng", value: 5, icon: "👤" },
+  { label: "Tổng số cửa hàng", value: 2, icon: "🏬" },
+  { label: "Tổng số sản phẩm", value: 15, icon: "📚" },
+  { label: "Tổng số đơn hàng", value: 8, icon: "🛒" },
+  { label: "Doanh thu toàn hệ thống", value: 1239000, icon: "💰" },
 ];
 
 export default function AdminDashboard() {

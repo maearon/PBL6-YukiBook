@@ -1,93 +1,134 @@
 "use client"
 
-import React, { useEffect, useState } from "react"
-import axios from "axios"
-import CustomerSidebar from "../../components/CustomerSidebar"
-import { useAuth } from "../../hooks/useAuth.js"
+import { useEffect, useState } from "react"
+import { ProfileCard } from "../../components/profile/profile-card.tsx"
+import { BooksSection } from "../../components/profile/books-section.tsx"
+import { ProfileSidebar } from "../../components/profile/profile-sidebar"
+import { LoadingSpinner } from "../../components/profile/loading-spinner"
+
+// Mock useAuth hook - replace with your actual implementation
+const useAuth = () => {
+  return {
+    user: {
+      user_id: "123",
+      token: "mock-token",
+    },
+    isAuthLoading: false,
+  }
+}
 
 export default function Profile() {
   const { user, isAuthLoading } = useAuth()
-  const [profile, setProfile] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [profile, setProfile] = useState({
+    fullname: "Nguyễn Văn An",
+    email: "nguyenvanan@example.com",
+    phoneNumber: "0123456789",
+    address: "123 Đường ABC, Quận 1, TP.HCM",
+  })
+  const [loading, setLoading] = useState(false)
   const [purchasedBooks, setPurchasedBooks] = useState([
-    { id: 1, name: "Ebook Lập Trình Python", fileUrl: "https://example.com/ebook1.pdf" },
-    { id: 2, name: "Ebook React.js Nâng Cao", fileUrl: "https://example.com/ebook2.pdf" },
-    { id: 3, name: "Ebook JavaScript Cơ Bản", fileUrl: "https://example.com/ebook3.pdf" }
-  ]);
+    {
+      id: 1,
+      name: "Giác Ngộ",
+      fileUrl: "https://example.com/ebook1.pdf",
+      purchaseDate: "15/01/2024",
+      size: "2.5 MB",
+    },
+    {
+      id: 2,
+      name: "Căn Phòng Của Râu Xanh",
+      fileUrl: "https://example.com/ebook2.pdf",
+      purchaseDate: "20/02/2024",
+      size: "3.2 MB",
+    },
+    {
+      id: 3,
+      name: "Chiếc Hộp Pandora",
+      fileUrl: "https://example.com/ebook3.pdf",
+      purchaseDate: "10/03/2024",
+      size: "1.8 MB",
+    },
+    {
+      id: 4,
+      name: "Thần Thoại Ai Cập",
+      fileUrl: "https://example.com/ebook4.pdf",
+      purchaseDate: "25/03/2024",
+      size: "4.1 MB",
+    },
+  ])
 
   useEffect(() => {
     if (isAuthLoading || !user?.user_id) return
-    ;(async () => {
+
+    const fetchProfile = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:8081/api/v1/users/${user.user_id}`,
-          { headers: { Authorization: `Bearer ${user.token}` } }
-        )
-        setProfile(res.data)
+        setLoading(true)
+        // Replace with your actual API call
+        // const res = await fetch(`http://localhost:8081/api/v1/users/${user.user_id}`, {
+        //   headers: { Authorization: `Bearer ${user.token}` }
+        // })
+        // const data = await res.json()
+        // setProfile(data)
+
+        // Simulating API call
+        setTimeout(() => {
+          setLoading(false)
+        }, 1500)
       } catch (err) {
         console.error("🔥 Lỗi khi tải hồ sơ:", err)
-      } finally {
         setLoading(false)
       }
-    })()
+    }
+
+    fetchProfile()
   }, [user, isAuthLoading])
 
+  const handleDownload = (book) => {
+    // Simulate download with notification
+    const link = document.createElement("a")
+    link.href = book.fileUrl
+    link.download = book.name
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+
+    // You could add a toast notification here
+    console.log(`Đang tải xuống: ${book.name}`)
+  }
+
+  const handleEditProfile = () => {
+    // Handle edit profile action
+    console.log("Chỉnh sửa hồ sơ")
+  }
+
   if (isAuthLoading || loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-gray-50">
-        <p className="text-gray-500">Đang tải hồ sơ…</p>
-      </div>
-    )
+    return <LoadingSpinner />
   }
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
-      {/* Sidebar */}
-      <CustomerSidebar />
-
-      {/* Main content */}
-      <main className="flex-1 p-8">
-        <h1 className="text-2xl font-bold text-primary mb-6">Hồ sơ cá nhân</h1>
-
-        <div className="rounded-lg bg-white p-6 shadow space-y-6">
-          <div>
-            <label className="block text-sm font-medium text-gray-600">Họ và tên</label>
-            <p className="mt-1 text-gray-800">{profile.fullname || "Chưa cập nhật"}</p>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-600">Email</label>
-            <p className="mt-1 text-gray-800">{profile.email}</p>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-600">Số điện thoại</label>
-            <p className="mt-1 text-gray-800">{profile.phoneNumber || "Chưa cập nhật"}</p>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-600">Địa chỉ</label>
-            <p className="mt-1 text-gray-800">{profile.address || "Chưa cập nhật"}</p>
-          </div>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+      <div className="container mx-auto px-4 py-8 max-w-7xl">
+        {/* Header */}
+        <div className="mb-8 text-center lg:text-left">
+          <h1 className="text-4xl font-bold text-gray-800 mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            Hồ sơ cá nhân
+          </h1>
+          <p className="text-gray-600 text-lg">Quản lý thông tin cá nhân và thư viện sách của bạn</p>
         </div>
 
-        {/* Purchased Books Section */}
-        <div className="mt-8 rounded-lg bg-white p-6 shadow space-y-6">
-          <h2 className="text-lg font-semibold text-gray-800">Sách đã mua</h2>
-          {purchasedBooks.map((book) => (
-            <div key={book.id} className="flex justify-between items-center">
-              <p className="text-gray-800">{book.name}</p>
-              <a
-                href={book.fileUrl}
-                download
-                className="text-blue-600 hover:underline"
-              >
-                Tải về
-              </a>
-            </div>
-          ))}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          {/* Main Content */}
+          <div className="lg:col-span-3 space-y-8">
+            <ProfileCard profile={profile} onEdit={handleEditProfile} />
+            <BooksSection books={purchasedBooks} onDownload={handleDownload} />
+          </div>
+
+          {/* Sidebar */}
+          <div className="lg:col-span-1">
+            <ProfileSidebar profile={profile} booksCount={purchasedBooks.length} />
+          </div>
         </div>
-      </main>
+      </div>
     </div>
   )
 }

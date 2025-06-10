@@ -5,16 +5,21 @@ import { useAuth } from "../hooks/useAuth";
 export default function useProducts() {
   const { user, isAuthLoading } = useAuth();
   const [products, setProducts] = useState([]);
-  const [loading, setLoading]   = useState(true);
-  const [error, setError]       = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   // Fetch all products for this shop
   const fetchProducts = useCallback(async () => {
     if (!user?.token || isAuthLoading) return;
+
+    // Log user id and token before calling the API
+    console.log("User ID:", user.user_id);
+    console.log("User Token:", user.token);
+
     setLoading(true);
     try {
       const shopRes = await axios.get(
-        `http://localhost:8081/api/v1/shops/${user.user_id}`,
+        `http://localhost:8081/api/v1/shops/user/${user.user_id}`,
         { headers: { Authorization: `Bearer ${user.token}` } }
       );
       const prodRes = await axios.get(
@@ -32,6 +37,10 @@ export default function useProducts() {
   // Delete a product
   const deleteProduct = useCallback(
     async (id) => {
+      // Log user id and token before calling the API
+      console.log("User ID:", user.user_id);
+      console.log("User Token:", user.token);
+
       await axios.delete(`http://localhost:8081/api/v1/products/${id}`, {
         headers: { Authorization: `Bearer ${user.token}` },
       });
@@ -43,6 +52,10 @@ export default function useProducts() {
   // Update a product in-place
   const updateProduct = useCallback(
     async (id, updates) => {
+      // Log user id and token before calling the API
+      console.log("User ID:", user.user_id);
+      console.log("User Token:", user.token);
+
       await axios.put(
         `http://localhost:8081/api/v1/products/${id}`,
         updates,
@@ -58,6 +71,10 @@ export default function useProducts() {
   // Create a new product
   const createProduct = useCallback(
     async (newProd) => {
+      // Log user id and token before calling the API
+      console.log("User ID:", user.user_id);
+      console.log("User Token:", user.token);
+
       const { data } = await axios.post(
         `http://localhost:8081/api/v1/products`,
         newProd,

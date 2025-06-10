@@ -1,20 +1,19 @@
 import React from "react";
 import OwnerSidebar from "../../components/OwnerSidebar";
 
-// ⚡ Fake dữ liệu đơn hàng cửa hàng
 const fakeShopOrders = [
   {
     id: "SO123456",
     date: "2025-04-20",
-    customer: "Nguyễn Văn A",
+    customer: "Nguyễn Văn An",
     status: "Đã giao",
     total: 150000,
-    items: 1,
+    items: 2,
   },
   {
     id: "SO123457",
     date: "2025-04-18",
-    customer: "Trần Thị B",
+    customer: "Nguyễn Văn An",
     status: "Đã giao",
     total: 90000,
     items: 1,

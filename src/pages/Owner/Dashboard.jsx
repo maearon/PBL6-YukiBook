@@ -3,9 +3,9 @@ import OwnerSidebar from "../../components/OwnerSidebar";
 
 // ⚡ Fake dữ liệu thống kê
 const stats = [
-  { label: "Tổng đơn hàng", value: 132, icon: "📦" },
-  { label: "Sản phẩm", value: 58, icon: "📚" },
-  { label: "Doanh thu tháng này", value: 2400000, icon: "💰" },
+  { label: "Tổng đơn hàng", value: 2, icon: "📦" },
+  { label: "Sản phẩm", value: 10, icon: "📚" },
+  { label: "Doanh thu tháng này", value: 240000, icon: "💰" },
 ];
 
 export default function OwnerDashboard() {
