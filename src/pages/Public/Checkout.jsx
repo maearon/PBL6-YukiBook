@@ -16,7 +16,6 @@ export default function Checkout() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
 
-  // Lấy thông tin user trước khi tạo order
   useEffect(() => {
     if (isAuthLoading) return;
     if (!user?.user_id) {
