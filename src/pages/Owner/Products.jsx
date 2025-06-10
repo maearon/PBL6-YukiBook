@@ -26,7 +26,6 @@ export default function Products() {
   const [editingProduct, setEditingProduct] = useState(null);
   const [adding, setAdding] = useState(false);
 
-  // Load danh mục
   useEffect(() => {
     axios
       .get("http://localhost:8081/api/v1/categories?page=1&limit=10")
@@ -43,12 +42,12 @@ export default function Products() {
 
   return (
     <div className="flex min-h-screen bg-gray-50">
-      {/* Sidebar với fixed position, bắt đầu từ dưới header */}
+      {}
       <div className="fixed left-0 top-16 h-[calc(100vh-4rem)] w-64 z-40 overflow-hidden">
         <OwnerSidebar />
       </div>
       
-      {/* Main content với margin-left và margin-top để tránh sidebar và header */}
+      {}
       <main className="flex-1 ml-64 mt-16 min-h-screen">
         <div className="p-8 space-y-10">
           {/* Header */}
@@ -62,7 +61,7 @@ export default function Products() {
             </button>
           </div>
 
-          {/* Các section theo danh mục */}
+          {}
           {categories.map((cat) => (
             <ProductSection
               key={cat.id}
@@ -72,7 +71,6 @@ export default function Products() {
               onDelete={async (id) => {
                 if (!window.confirm("Bạn có chắc chắn muốn xóa?")) return;
                 await deleteProduct(id);
-                // state products đã auto cập nhật qua hook deleteProduct
               }}
             />
           ))}
@@ -90,16 +88,16 @@ export default function Products() {
               updateProduct(editingProduct.id, updates);
               setEditingProduct(null);
             }}
-            className="z-50" // Thêm z-index để đảm bảo modal hiển thị trên cùng
+            className="z-50" 
           />,
           document.body
         )}
 
-      {/* Modal Thêm */}
+      {}
       {adding &&
         createPortal(
           <AddProductModal
-            shopId={user.user_id} // hoặc shop.id nếu bạn fetch trước
+            shopId={user.user_id} \
             categories={categories}
             onClose={() => setAdding(false)}
             onAdded={async (newProd) => {
@@ -112,7 +110,7 @@ export default function Products() {
                 setAdding(false);
               }
             }}
-            className="z-50" // Thêm z-index để đảm bảo modal hiển thị trên cùng
+            className="z-50" \
           />,
           document.body
         )}
