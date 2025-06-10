@@ -36,8 +36,8 @@ import Header from "./components/Header";
 import Footer from "./components/Footer"; // (nếu bạn có Footer)
 import RequireAuth from "./routes/RequireAuth";
 
-import MockChat from "./pages/Chat/MockChat";
-import ChatLayout from "./pages/Chat/ChatLayout";
+import MockChat from "./pages/chat/MockChat";
+import ChatLayout from "./pages/chat/ChatLayout";
 import CheckoutSuccess from "./pages/Public/CheckoutSuccess";
 import Checkout from "./pages/Public/Checkout";
 
